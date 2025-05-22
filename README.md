@@ -1,2 +1,3 @@
-# dev-tinder-ui
-front-end for dev tinder application
+# React + Vite
+
+# Dev-Tinder UI Project
