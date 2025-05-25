@@ -14,16 +14,18 @@ const App = () => {
   return (
     <>
       <Provider store={appStore}>
-        <BrowserRouter basename='/'>
+        <BrowserRouter>
           <Routes>
+            {/* Public route */}
+            <Route path='/login' element={<Login />} />
+
+            {/* Protected layout routes */}
             <Route path='/' element={<Body />}>
-              {/* Children Routes */}
-              <Route path='/' element={<Feed />} />
-              <Route path='/login' element={<Login />} />
-              <Route path='/profile' element={<Profile />} />
-              <Route path='/setting' element={<Setting />} />
-              <Route path='/connections' element={<Connections />} />
-              <Route path='/requests' element={<Requests />} />
+              <Route path='feed' element={<Feed />} />
+              <Route path='profile' element={<Profile />} />
+              <Route path='setting' element={<Setting />} />
+              <Route path='connections' element={<Connections />} />
+              <Route path='requests' element={<Requests />} />
             </Route>
           </Routes>
         </BrowserRouter>

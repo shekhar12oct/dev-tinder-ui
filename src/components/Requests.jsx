@@ -1,7 +1,6 @@
-import axios from 'axios';
-import React, { useEffect } from 'react';
-import { BASE_URL } from '../utils/constants';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import axiosInstance from '../utils/axiosInstance';
 import { addRequests, removeRequest } from '../utils/requestSlice';
 
 const Requests = () => {
@@ -9,9 +8,7 @@ const Requests = () => {
   const disptch = useDispatch();
   const fetchRequests = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}/user/requests`, {
-        withCredentials: true,
-      });
+      const res = await axiosInstance.get('/user/requests');
       disptch(addRequests(res?.data?.data));
     } catch (error) {
       console.log(error);
@@ -20,11 +17,7 @@ const Requests = () => {
 
   const reviewRequest = async (status, _id) => {
     try {
-      const res = await axios.post(
-        `${BASE_URL}/request/review/${status}/${_id}`,
-        {},
-        { withCredentials: true }
-      );
+      const res = await axiosInstance.post(`/request/review/${status}/${_id}`);
       disptch(removeRequest(_id));
     } catch (error) {
       console.log(error);
@@ -38,7 +31,9 @@ const Requests = () => {
   if (!requests) return;
 
   if (requests.length === 0)
-    return <h1 className='flex justify-center my-10'>No Request Found</h1>;
+    return (
+      <h1 className='flex justify-center my-10 text-white'>No Request Found</h1>
+    );
   return (
     <div className='flex flex-col flex-wrap justify-center my-10 items-center'>
       <div className='text-center'>
@@ -50,33 +45,33 @@ const Requests = () => {
         return (
           <div
             key={_id}
-            className='flex flex-wrap m-4 p-4 border rounded-lg bg-base-300 max-w-1/2'
+            className='card w-96 shadow-lg color-[#bebebe12] h-[500px] my-30'
           >
-            <div>
+            <figure className='w-full h-full m-0 p-0 overflow-hidden'>
               <img
-                alt='photo'
-                className='w-20 h-20 rounded-b-full'
                 src={photoUrl}
+                alt='photo'
+                className='w-full h-full object-cover block'
               />
-            </div>
-            <div className='text-left mx-4'>
-              <h2 className='font-bold text-xl'>{`${firstName} ${lastName}`}</h2>
+            </figure>
+            <div className='card-body'>
+              <h2 className='card-title'>{`${firstName} ${lastName}`}</h2>
               {age && gender && <p>{`${age} ${gender}`}</p>}
               <p>{about}</p>
-            </div>
-            <div>
-              <button
-                className='btn btn-primary mx-2'
-                onClick={() => reviewRequest('rejected', request._id)}
-              >
-                Reject
-              </button>
-              <button
-                className='btn btn-secondary mx-2'
-                onClick={() => reviewRequest('accepted', request._id)}
-              >
-                Accept
-              </button>
+              <div className='card-actions justify-center'>
+                <button
+                  className='btn btn-primary'
+                  onClick={() => reviewRequest('rejected', request._id)}
+                >
+                  Reject
+                </button>
+                <button 
+                  className='btn btn-secondary'
+                  onClick={() => reviewRequest('accepted', request._id)}
+                >
+                  Accept
+                </button>
+              </div>
             </div>
           </div>
         );

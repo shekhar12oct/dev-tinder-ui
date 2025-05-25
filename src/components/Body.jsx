@@ -1,23 +1,21 @@
-import { Outlet, useNavigate } from 'react-router-dom';
-import Footer from './Footer';
-import NavBar from './NavBar';
-import axios from 'axios';
-import { BASE_URL } from '../utils/constants';
-import { useDispatch, useSelector } from 'react-redux';
-import { addUser } from '../utils/userSlice';
 import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Outlet, useNavigate } from 'react-router-dom';
+import axiosInstance from '../utils/axiosInstance';
+import { addUser } from '../utils/userSlice';
+import Footer from './Footer';
+import GlobalLoader from './GlobalLoader';
+import NavBar from './NavBar';
 
 const Body = () => {
-  const dispacth = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const userData = useSelector((store) => store.user);
   const fetchUser = async () => {
     try {
       if (userData) return;
-      const user = await axios.get(`${BASE_URL}/profile/view`, {
-        withCredentials: true,
-      });
-      dispacth(addUser(user?.data));
+      const user = await axiosInstance.get('/profile/view');
+      dispatch(addUser(user?.data));
     } catch (err) {
       if (err.status === 401) {
         navigate('/login');
@@ -31,11 +29,12 @@ const Body = () => {
   }, []);
 
   return (
-    <div>
-      <NavBar />
+    <>
+     <NavBar />
+      <GlobalLoader />
       <Outlet />
       <Footer />
-    </div>
+    </>
   );
 };
 
