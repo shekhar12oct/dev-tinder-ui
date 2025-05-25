@@ -17,6 +17,7 @@ const NavBar = () => {
       console.error(err);
     }
   };
+  
   return (
     <div className='navbar shadow-sm bg-[#f0ffff]'>
       <div className='flex-1'>
