@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import axiosInstance from '../utils/axiosInstance';
 
 const Premium = () => {
+  const [isUserPremium, setIsUserPremium] = useState(false);
+
+  useEffect(() => {
+    verifyPremiumUser();
+  }, []);
+
+  const verifyPremiumUser = async () => {
+    const res = axiosInstance.get('/premium/verify');
+    if ((await res).data.isPremium) {
+      setIsUserPremium(true);
+    }
+  };
   const handleBuyClick = async (type) => {
     const order = await axiosInstance.post('/payment/create', {
       membershipType: type,
@@ -30,7 +42,9 @@ const Premium = () => {
     rzp.open();
   };
 
-  return (
+  return isUserPremium ? (
+    <h1 className='text-white text-3xl flex justify-center my-10'>You are already a premium user</h1>
+  ) : (
     <div className='m-10'>
       <div className='flex w-full flex-col lg:flex-row'>
         <div className='card bg-base-300 rounded-box grid h-80 grow place-items-center'>
