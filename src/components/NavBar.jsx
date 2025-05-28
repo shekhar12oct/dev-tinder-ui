@@ -17,7 +17,7 @@ const NavBar = () => {
       console.error(err);
     }
   };
-  
+
   return (
     <div className='navbar shadow-sm bg-[#f0ffff]'>
       <div className='flex-1'>
@@ -61,6 +61,9 @@ const NavBar = () => {
               </li>
               <li>
                 <Link to='/feed'>Feed</Link>
+              </li>
+              <li>
+                <Link to='/premium'>Premium</Link>
               </li>
               <li onClick={handleLogout}>
                 <Link>Logout</Link>

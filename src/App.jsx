@@ -9,6 +9,7 @@ import Feed from './components/Feed';
 import Connections from './components/Connections';
 import Requests from './components/Requests';
 import Setting from './components/Setting';
+import Premium from './components/Premium';
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
               <Route path='setting' element={<Setting />} />
               <Route path='connections' element={<Connections />} />
               <Route path='requests' element={<Requests />} />
+              <Route path='premium' element={<Premium />} />
             </Route>
           </Routes>
         </BrowserRouter>
